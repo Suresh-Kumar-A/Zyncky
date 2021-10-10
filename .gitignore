@@ -1,0 +1,9 @@
+# Ignore Vs code configs
+.vscode/
+
+# Ignore generated Build
+target/
+
+# Ignore other unwanted files
+.classpath
+.settings/
