@@ -1,2 +1,2 @@
 # zyncky
-Streaming service project for various files
+Spring project for authentication and authorization using JWT
