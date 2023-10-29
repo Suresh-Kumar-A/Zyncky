@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 
 import app.web.zyncky.model.Role;
 import app.web.zyncky.repo.RoleRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RoleService {
 
-    private RoleRepository roleRepo;
+    private final RoleRepository roleRepo;
 
     public Role createRole(String roleName) throws Exception {
         if (!validateRoleName(roleName))
