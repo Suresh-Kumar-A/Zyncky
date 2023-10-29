@@ -134,7 +134,7 @@ public class UserService {
 
     public UserDto updateUser(UserDto userDto) throws Exception {
         if (Objects.isNull(userDto))
-            throw new IllegalArgumentException("User object is Invalid. Unable to process!");
+            throw new IllegalArgumentException("User object is Invalid. Unable to process!!");
         else if (!StringUtils.hasText(userDto.getUserName()))
             throw new IllegalArgumentException("Username is Invalid");
 
