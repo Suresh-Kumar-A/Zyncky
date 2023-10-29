@@ -3,6 +3,7 @@ package app.web.zyncky.service;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
@@ -88,7 +89,6 @@ public class UserService {
         return userRepo.findByUserName(userName).isPresent();
     }
 
-
     public List<UserDto> getAllUser() throws Exception {
         return userRepo.findAll().stream().map(dbUser -> convertToDto(dbUser))
                 .collect(Collectors.toList());
@@ -102,5 +102,19 @@ public class UserService {
         dbRecord.setPassword(customBeanUtils.encodeUsingBcryptPasswordEncoder(defaultAdminPassword));
         userRepo.save(dbRecord);
         System.out.println("## App Default Admin User Created...");
+    }
+
+    public void deleteUserByUsername(String userName) throws Exception {
+        if (!StringUtils.hasText(userName))
+            throw new IllegalArgumentException("Username is Invalid");
+
+        Optional<User> dbEntity = userRepo.findByUserName(userName);
+        if (!dbEntity.isPresent())
+            throw new UserMissingException("User not found!");
+        else if (dbEntity.get().getRole().getRoleName().equalsIgnoreCase(RoleEnum.ADMIN.name())) {
+            throw new IllegalArgumentException("UnAuthorized to delete an Admin User!");
+        }
+
+        userRepo.delete(dbEntity.get());
     }
 }
