@@ -12,7 +12,7 @@
 	<artifactId>zyncky</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>zyncky</name>
-	<description>Online Vault | API Service</description>
+	<description>Online Vault App | API Service</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -25,7 +25,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -40,6 +39,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
