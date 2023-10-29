@@ -1,4 +1,4 @@
-package com.gmail.creativegeeksuresh.zyncky;
+package app.web.zyncky;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
