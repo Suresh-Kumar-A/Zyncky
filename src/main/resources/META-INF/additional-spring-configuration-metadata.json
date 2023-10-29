@@ -8,5 +8,20 @@
     "name": "app.storage.path",
     "type": "java.lang.String",
     "description": "A description for 'app.storage.path'"
+  },
+  {
+    "name": "app.default.admin.username",
+    "type": "java.lang.String",
+    "description": "A description for 'app.default.admin.username'"
+  },
+  {
+    "name": "app.default.admin.password",
+    "type": "java.lang.String",
+    "description": "A description for 'app.default.admin.password'"
+  },
+  {
+    "name": "app.default.admin.display-name",
+    "type": "java.lang.String",
+    "description": "A description for 'app.default.admin.displayname'"
   }
 ]}
