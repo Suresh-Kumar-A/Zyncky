@@ -61,6 +61,7 @@ public class UserService {
         UserDto userDto = UserDto.builder().build();
         BeanUtils.copyProperties(user, userDto, "password", "role");
         userDto.setRoleName(user.getRole().getRoleName());
+        userDto.setPassword("");
         return userDto;
     }
 
