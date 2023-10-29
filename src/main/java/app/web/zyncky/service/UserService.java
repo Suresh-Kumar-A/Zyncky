@@ -42,7 +42,7 @@ public class UserService {
 
     public UserDto createUser(UserDto user) throws Exception {
         if (Objects.isNull(user))
-            throw new IllegalArgumentException("User object is Invalid");
+            throw new IllegalArgumentException("User object is Invalid. Unable to process!");
         else if (userRepo.findByUserName(user.getUserName()).isPresent())
             throw new UserExistsException("Username (" + user.getUserName() + ") already exists!");
 
@@ -116,5 +116,34 @@ public class UserService {
         }
 
         userRepo.delete(dbEntity.get());
+    }
+
+    public void deleteUserByUid(String uid) throws Exception {
+        if (!StringUtils.hasText(uid))
+            throw new IllegalArgumentException("Uid is Invalid");
+
+        Optional<User> dbEntity = userRepo.findByUid(uid);
+        if (!dbEntity.isPresent())
+            throw new UserMissingException("User not found!");
+        else if (dbEntity.get().getRole().getRoleName().equalsIgnoreCase(RoleEnum.ADMIN.name())) {
+            throw new IllegalArgumentException("UnAuthorized to delete an Admin User!");
+        }
+
+        userRepo.delete(dbEntity.get());
+    }
+
+    public UserDto updateUser(UserDto userDto) throws Exception {
+        if (Objects.isNull(userDto))
+            throw new IllegalArgumentException("User object is Invalid. Unable to process!");
+        else if (!StringUtils.hasText(userDto.getUserName()))
+            throw new IllegalArgumentException("Username is Invalid");
+
+        User dbUser = userRepo.findByUserName(userDto.getUserName())
+                .orElseThrow(() -> new UserMissingException("User not found!"));
+
+        dbUser.setDisplayName(userDto.getDisplayName());
+        dbUser.setPassword(customBeanUtils.encodeUsingBcryptPasswordEncoder(userDto.getPassword()));
+        return convertToDto(userRepo.save(dbUser));
+
     }
 }
