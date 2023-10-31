@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -34,12 +33,6 @@ public final class UserApiController {
     @ResponseStatus(value = HttpStatus.OK)
     public UserDto findByUserName(@PathVariable String userName) throws Exception {
         return userService.findByUserName(userName);
-    }
-
-    @PostMapping("/create")
-    @ResponseStatus(value = HttpStatus.CREATED)
-    public UserDto createNewUser(@RequestBody UserDto userDto) throws Exception {
-        return userService.createUser(userDto);
     }
 
     @PatchMapping("/{userName}")
