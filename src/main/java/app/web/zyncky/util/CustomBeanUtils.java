@@ -15,4 +15,8 @@ public class CustomBeanUtils {
         return bCryptPasswordEncoder.encode(input);
     }
 
+    public boolean verifyUserPassword(String plainText, String hashString) {
+        return bCryptPasswordEncoder.matches(plainText, hashString);
+    }
+
 }

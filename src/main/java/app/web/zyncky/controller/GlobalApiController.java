@@ -1,5 +1,7 @@
 package app.web.zyncky.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,10 +35,10 @@ public class GlobalApiController {
         return userService.createUser(userDto);
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     @ResponseStatus(value = HttpStatus.OK)
-    public void loginUser() throws Exception {
-        // return userService.createUser(userDto);
+    public Map<String, Object> authenticateUserAndGenerateJwtToken(@RequestBody UserDto userDto) throws Exception {
+        return userService.authenticateUserAndGenerateJwtToken(userDto);
     }
 
 }

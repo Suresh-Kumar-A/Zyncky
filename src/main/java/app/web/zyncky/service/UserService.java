@@ -1,7 +1,9 @@
 package app.web.zyncky.service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -13,12 +15,14 @@ import org.springframework.util.StringUtils;
 
 import app.web.zyncky.constant.RoleEnum;
 import app.web.zyncky.dto.UserDto;
+import app.web.zyncky.exception.BadCredentialsException;
 import app.web.zyncky.exception.UserExistsException;
 import app.web.zyncky.exception.UserMissingException;
 import app.web.zyncky.model.User;
 import app.web.zyncky.repo.UserRepository;
 import app.web.zyncky.util.CommonUtils;
 import app.web.zyncky.util.CustomBeanUtils;
+import app.web.zyncky.util.JwtBeanUtils;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -30,6 +34,8 @@ public class UserService {
     private final RoleService roleService;
 
     private final CustomBeanUtils customBeanUtils;
+
+    private final JwtBeanUtils jwtBeanUtils;
 
     @Value("${app.default.admin.username}")
     private String defaultAdminUsername;
@@ -145,6 +151,31 @@ public class UserService {
         dbUser.setDisplayName(userDto.getDisplayName());
         dbUser.setPassword(customBeanUtils.encodeUsingBcryptPasswordEncoder(userDto.getPassword()));
         return convertToDto(userRepo.save(dbUser));
+    }
 
+    public Map<String, Object> authenticateUserAndGenerateJwtToken(UserDto userDto) throws Exception {
+        Map<String, Object> response = new HashMap<>();
+        Map<String, Object> jwtBody = new HashMap<>();
+
+        if (!StringUtils.hasText(userDto.getUserName()))
+            throw new BadCredentialsException("Provided Credentials are Invalid!!");
+
+        User dbUser = userRepo.findByUserName(userDto.getUserName())
+                .orElseThrow(() -> new BadCredentialsException("Provided Credentials are Invalid!!"));
+
+        boolean isPasswordValid = customBeanUtils.verifyUserPassword(userDto.getPassword(), dbUser.getPassword());
+
+        if (!isPasswordValid)
+            throw new BadCredentialsException("Provided Credentials are Invalid!!");
+
+        // JWT Token | Body
+        jwtBody.put("uid", dbUser.getUid());
+        jwtBody.put("username", dbUser.getUserName());
+        jwtBody.put("role", dbUser.getRole().getRoleName());
+
+        response.put("token", jwtBeanUtils.generateSignedJwtToken(jwtBody));
+        response.put("createdAt", new Date().toString());
+
+        return response;
     }
 }
