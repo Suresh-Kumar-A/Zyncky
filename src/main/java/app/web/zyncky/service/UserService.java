@@ -89,6 +89,15 @@ public class UserService {
         return convertToDto(dbUser);
     }
 
+    public User findByUserNameAndThrowBadCredExecption(String userName) throws Exception {
+        if (!StringUtils.hasText(userName))
+            throw new BadCredentialsException("Provided Credentials are Invalid!!");
+
+        User dbUser = userRepo.findByUserName(userName)
+                .orElseThrow(() -> new BadCredentialsException("Provided Credentials are Invalid!!"));
+        return dbUser;
+    }
+
     public boolean doUserExists(String userName) throws Exception {
         if (!StringUtils.hasText(userName))
             throw new IllegalArgumentException("Username is Invalid");
@@ -149,7 +158,8 @@ public class UserService {
                 .orElseThrow(() -> new UserMissingException("User not found!"));
 
         dbUser.setDisplayName(userDto.getDisplayName());
-        dbUser.setPassword(customBeanUtils.encodeUsingBcryptPasswordEncoder(userDto.getPassword()));
+        if (StringUtils.hasText(userDto.getPassword()))
+            dbUser.setPassword(customBeanUtils.encodeUsingBcryptPasswordEncoder(userDto.getPassword()));
         return convertToDto(userRepo.save(dbUser));
     }
 

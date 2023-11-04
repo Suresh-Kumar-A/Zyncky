@@ -7,13 +7,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import app.web.zyncky.constant.RoleEnum;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfiguration {
 
     private static final String[] GLOBAL_EXCLUDE_API_PATTERN = new String[] {
@@ -23,6 +25,8 @@ public class SecurityConfiguration {
     private static final String USER_API_PATTERN = "/users/**";
 
     private static final String[] ALLOWED_USER_API_ROLES = new String[] { RoleEnum.USER.name(), RoleEnum.ADMIN.name() };
+
+    private final JwtTokenFilter jwtTokenFilter;
 
     /**
      * Note: If 'server.servlet.context-path' is set then the same
@@ -46,11 +50,8 @@ public class SecurityConfiguration {
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(withDefaults())
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

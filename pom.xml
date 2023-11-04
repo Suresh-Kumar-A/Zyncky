@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>app.web</groupId>
 	<artifactId>zyncky</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>zyncky</name>
 	<description>Online Vault App | API Service</description>
 	<properties>
