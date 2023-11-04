@@ -1,0 +1,542 @@
+{
+	"info": {
+		"_postman_id": "445c9504-d809-41f7-8a00-333fc6a90cee",
+		"name": "Zyncky",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17574852"
+	},
+	"item": [
+		{
+			"name": "secure-api",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "View Specific User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();",
+											"pm.collectionVariables.set(\"USERNAME\",response.userName);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/users/dev",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"users",
+										"dev"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/users/dev",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"users",
+										"dev"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List All Users",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/users",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "List All Users",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/users",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "Pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "Expires",
+											"value": "0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 04 Nov 2023 06:32:47 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"id\": 1,\n        \"uid\": \"e-YWG_xGpaD7BypvsQLPbJ-mzCDmVtXy\",\n        \"userName\": \"admin\",\n        \"displayName\": \"Administrator\",\n        \"password\": \"\",\n        \"createdAt\": \"2023-11-03T17:51:43.972+00:00\",\n        \"locked\": false,\n        \"roleName\": \"ADMIN\"\n    },\n    {\n        \"id\": 2,\n        \"uid\": \"qYJn0ljWDxSjzigaFxNZPRblIlyoq0Ea\",\n        \"userName\": \"dev\",\n        \"displayName\": \"Developer\",\n        \"password\": \"\",\n        \"createdAt\": \"2023-11-03T18:06:55.115+00:00\",\n        \"locked\": false,\n        \"roleName\": \"USER\"\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "Update User",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userName\":\"dev\",\n    \"displayName\":\"Developer\",\n    \"password\":\"dev\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/users/dev",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"users",
+										"dev"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Update User",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"userName\":\"dev\",\n    \"displayName\":\"Developer\",\n    \"password\":\"dev\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/users/dev",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"users",
+												"dev"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, no-store, max-age=0, must-revalidate"
+										},
+										{
+											"key": "Pragma",
+											"value": "no-cache"
+										},
+										{
+											"key": "Expires",
+											"value": "0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "DENY"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 04 Nov 2023 06:38:03 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 2,\n    \"uid\": \"qYJn0ljWDxSjzigaFxNZPRblIlyoq0Ea\",\n    \"userName\": \"dev\",\n    \"displayName\": \"Developer\",\n    \"password\": \"\",\n    \"createdAt\": \"2023-11-03T18:06:55.115+00:00\",\n    \"locked\": false,\n    \"roleName\": \"USER\"\n}"
+								}
+							]
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{JWT_TOKEN}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Create New User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\":\"dev\",\n    \"password\":\"dev\",\n    \"displayName\":\"Developer\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/create-account",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"create-account"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create New User",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userName\":\"dev\",\n    \"password\":\"dev\",\n    \"displayName\":\"Developer\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/create-account",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"create-account"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 03 Nov 2023 18:06:55 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 2,\n    \"uid\": \"qYJn0ljWDxSjzigaFxNZPRblIlyoq0Ea\",\n    \"userName\": \"dev\",\n    \"displayName\": \"Developer\",\n    \"password\": \"\",\n    \"createdAt\": \"2023-11-03T18:06:55.115+00:00\",\n    \"locked\": false,\n    \"roleName\": \"USER\"\n}"
+				}
+			]
+		},
+		{
+			"name": "User Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();",
+							"pm.collectionVariables.set(\"JWT_TOKEN\",response.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\":\"dev\",\n    \"password\":\"dev\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "User Login",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userName\":\"dev\",\n    \"password\":\"dev\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 03 Nov 2023 18:33:35 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"createdAt\": \"Sat Nov 04 00:03:35 IST 2023\",\n    \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzM4NCJ9.eyJpc3MiOiJaeW5ja3ktQXBwIiwidWlkIjoicVlKbjBsaldEeFNqemlnYUZ4TlpQUmJsSWx5b3EwRWEiLCJyb2xlIjoiVVNFUiIsInVzZXJuYW1lIjoiZGV2In0.O1KwU4iB2p9UD1cbUp7LTIchq2qyIg9xb6FYZ9CYh0IFKcpCoR2KPH6jsETQvJ6jOn9PRHUCaRmKV_NLyOzwHtMPX3mSHAJ_h8Fa0UC9M4m6rbadIdUgl2Ba60FH8_QMbfj4ioz1kHusva5UyKQe7miFPDF59IS-9q-U3c2CMIL_POygYLyZwyQJLTauLwhtUMxpiHSu1vAWUiLXv9KpxNTaJewCeiGO_38ecssZjY7oT6uj3xLaPUE-G4iHG5e54tSBDt1qG7PtycybMTOPkisKcxfdC4sQpTGQ4szxUfEZJNj904pmg4d6tsWqMmnyMCnLV_dqCHY-TkZZxDRrCw\"\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:8080/api",
+			"type": "string"
+		},
+		{
+			"key": "JWT_TOKEN",
+			"value": ""
+		},
+		{
+			"key": "USERNAME",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
