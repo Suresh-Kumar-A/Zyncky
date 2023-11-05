@@ -1,5 +1,7 @@
 package app.web.zyncky.util;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,4 +21,12 @@ public class CustomBeanUtils {
         return bCryptPasswordEncoder.matches(plainText, hashString);
     }
 
+    public String getUserNameFromJWTSession() throws Exception {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else {
+            return principal.toString();
+        }
+    }
 }
