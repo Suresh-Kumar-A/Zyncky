@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import app.web.zyncky.constant.FileTypeEnum;
+import app.web.zyncky.dto.FileInfoDto;
 import app.web.zyncky.util.CustomBeanUtils;
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +29,8 @@ public class StorageService {
 
     private final CustomBeanUtils customBeanUtils;
 
+    private final FileInfoService fileInfoService;
+
     private String parseFilePath(String fileNameWithExt) throws Exception {
         if (fileNameWithExt == null)
             throw new NullPointerException("Invalid File Name");
@@ -36,7 +40,7 @@ public class StorageService {
                 .concat(File.separator).concat(fileNameWithExt);
     }
 
-    public void createNewFile(MultipartFile file) throws Exception {
+    public FileInfoDto createNewFile(MultipartFile file) throws Exception {
         if (Objects.isNull(file))
             throw new IllegalArgumentException("Uploaded File (or) its content is invalid");
 
@@ -46,13 +50,13 @@ public class StorageService {
         final FileTypeEnum fileType = FileTypeEnum.parse(fileExtension);
 
         Path filePath = Paths.get(parseFilePath(fileNameWithExt));
+        Files.createDirectories(filePath.getParent());
         Files.createFile(filePath);
         Files.write(filePath, file.getBytes());
 
-        System.out.println(" --- File Uploaded Scuccessfully ---- ");
-        System.out.println("File Name: " + fileNameWithExt);
-        System.out.println("Uploaded by: " + loggedInUsername);
-        System.out.println("Storage path: " + filePath.toAbsolutePath());
-        System.out.println(" --- --------- ---- ");
+        FileInfoDto fileInfoDto = FileInfoDto.builder().filename(fileNameWithExt).fileType(fileType)
+                .createdAt(new Date()).storagePath(filePath.toAbsolutePath().toString())
+                .username(loggedInUsername).build();
+        return fileInfoService.save(fileInfoDto);
     }
 }

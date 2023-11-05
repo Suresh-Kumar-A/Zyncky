@@ -89,6 +89,14 @@ public class UserService {
         return convertToDto(dbUser);
     }
 
+    public User findByUserNameAndReturnUser(String userName) throws Exception {
+        if (!StringUtils.hasText(userName))
+            throw new IllegalArgumentException("Username is Invalid");
+
+        return userRepo.findByUserName(userName)
+                .orElseThrow(() -> new UserMissingException("User not found!"));
+    }
+
     public User findByUserNameAndThrowBadCredExecption(String userName) throws Exception {
         if (!StringUtils.hasText(userName))
             throw new BadCredentialsException("Provided Credentials are Invalid!!");
@@ -125,7 +133,7 @@ public class UserService {
             throw new IllegalArgumentException("Username is Invalid");
 
         Optional<User> dbEntity = userRepo.findByUserName(userName);
-        if (!dbEntity.isPresent())
+        if (dbEntity.isEmpty())
             throw new UserMissingException("User not found!");
         else if (dbEntity.get().getRole().getRoleName().equalsIgnoreCase(RoleEnum.ADMIN.name())) {
             throw new IllegalArgumentException("UnAuthorized to delete an Admin User!");
@@ -139,7 +147,7 @@ public class UserService {
             throw new IllegalArgumentException("Uid is Invalid");
 
         Optional<User> dbEntity = userRepo.findByUid(uid);
-        if (!dbEntity.isPresent())
+        if (dbEntity.isEmpty())
             throw new UserMissingException("User not found!");
         else if (dbEntity.get().getRole().getRoleName().equalsIgnoreCase(RoleEnum.ADMIN.name())) {
             throw new IllegalArgumentException("UnAuthorized to delete an Admin User!");

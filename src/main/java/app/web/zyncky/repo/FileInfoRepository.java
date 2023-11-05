@@ -14,7 +14,5 @@ public interface FileInfoRepository extends ListCrudRepository<FileInfo, Integer
 
     public Optional<FileInfo> findByUid(String uid);
 
-    public Optional<FileInfo> findByFileName(String fileName);
-
     public List<FileInfo> findByUser(User user);
 }

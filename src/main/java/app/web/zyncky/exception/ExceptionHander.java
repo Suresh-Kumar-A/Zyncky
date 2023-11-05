@@ -1,5 +1,6 @@
 package app.web.zyncky.exception;
 
+import java.nio.file.FileAlreadyExistsException;
 import java.time.LocalDateTime;
 
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,22 @@ public class ExceptionHander {
         ApiError apiError = new ApiError(request.getRequestURI(), ex.getMessage(), HttpStatus.BAD_REQUEST.value(),
                 LocalDateTime.now());
         return new ResponseEntity<ApiError>(apiError, HttpStatus.BAD_REQUEST);
+    }
 
+    @ExceptionHandler(FileExistsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ApiError> handleFileExistsException(FileExistsException ex, HttpServletRequest request) {
+        ApiError apiError = new ApiError(request.getRequestURI(), ex.getMessage(), HttpStatus.BAD_REQUEST.value(),
+                LocalDateTime.now());
+        return new ResponseEntity<ApiError>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FileMissingException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ApiError> handleFileMissingException(FileMissingException ex, HttpServletRequest request) {
+        ApiError apiError = new ApiError(request.getRequestURI(), ex.getMessage(), HttpStatus.BAD_REQUEST.value(),
+                LocalDateTime.now());
+        return new ResponseEntity<ApiError>(apiError, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(BadCredentialsException.class)
@@ -37,7 +53,6 @@ public class ExceptionHander {
         ApiError apiError = new ApiError(request.getRequestURI(), ex.getMessage(), HttpStatus.UNAUTHORIZED.value(),
                 LocalDateTime.now());
         return new ResponseEntity<ApiError>(apiError, HttpStatus.UNAUTHORIZED);
-
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
@@ -47,7 +62,16 @@ public class ExceptionHander {
         ApiError apiError = new ApiError(request.getRequestURI(), ex.getMessage(), HttpStatus.BAD_REQUEST.value(),
                 LocalDateTime.now());
         return new ResponseEntity<ApiError>(apiError, HttpStatus.BAD_REQUEST);
+    }
 
+    @ExceptionHandler(FileAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ApiError> handleFileAlreadyExistsException(FileAlreadyExistsException ex,
+            HttpServletRequest request) {
+        final String msg = "File Already Exists: ".concat(ex.getMessage());
+        ApiError apiError = new ApiError(request.getRequestURI(), msg, HttpStatus.BAD_REQUEST.value(),
+                LocalDateTime.now());
+        return new ResponseEntity<ApiError>(apiError, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
@@ -56,7 +80,6 @@ public class ExceptionHander {
         ApiError apiError = new ApiError(request.getRequestURI(), ex.getMessage(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(), LocalDateTime.now());
         return new ResponseEntity<ApiError>(apiError, HttpStatus.INTERNAL_SERVER_ERROR);
-
     }
 
 }

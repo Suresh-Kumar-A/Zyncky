@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import app.web.zyncky.dto.FileInfoDto;
 import app.web.zyncky.service.StorageService;
 import lombok.RequiredArgsConstructor;
 
@@ -19,8 +20,8 @@ public class ContentApiController {
     private final StorageService storageService;
 
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
-    public void uploadFiles(@RequestParam("file") MultipartFile file) throws Exception {
-        storageService.createNewFile(file);
+    public FileInfoDto uploadFiles(@RequestParam("file") MultipartFile file) throws Exception {
+        return storageService.createNewFile(file);
     }
 
     @GetMapping(value = "/{uid}/download")

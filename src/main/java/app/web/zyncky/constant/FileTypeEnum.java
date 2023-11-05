@@ -10,6 +10,8 @@ public enum FileTypeEnum {
 
     private String value = "";
 
+    private final static String DOT = ".";
+
     private FileTypeEnum(String value) {
         this.value = value.toLowerCase();
     }
@@ -26,6 +28,7 @@ public enum FileTypeEnum {
         if (Objects.isNull(value))
             throw new IllegalArgumentException("Unknown File Type");
 
+        value = (value.startsWith(DOT)) ? value : DOT.concat(value);
         for (FileTypeEnum fileType : FileTypeEnum.values()) {
             if (fileType.getValue().equalsIgnoreCase(value)) {
                 return fileType;
