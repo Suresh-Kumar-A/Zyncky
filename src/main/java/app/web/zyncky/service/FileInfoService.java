@@ -49,7 +49,7 @@ public class FileInfoService {
     }
 
     public FileInfoDto findByUid(String uid) throws Exception {
-        if (StringUtils.hasText(uid))
+        if (!StringUtils.hasText(uid))
             throw new IllegalArgumentException("Uid is Invalid");
 
         FileInfo fileInfo = fileInfoRepo.findByUid(uid)
@@ -58,7 +58,7 @@ public class FileInfoService {
     }
 
     public List<FileInfoDto> findByUsername(String username) throws Exception {
-        if (StringUtils.hasText(username))
+        if (!StringUtils.hasText(username))
             throw new IllegalArgumentException("username is Invalid");
 
         User user = userService.findByUserNameAndReturnUser(username);
