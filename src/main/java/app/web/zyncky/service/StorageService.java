@@ -8,6 +8,10 @@ import java.util.Date;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,5 +62,42 @@ public class StorageService {
                 .createdAt(new Date()).storagePath(filePath.toAbsolutePath().toString())
                 .username(loggedInUsername).build();
         return fileInfoService.save(fileInfoDto);
+    }
+
+    public ResponseEntity<Resource> testFileStreamAndDownload(Integer option) throws Exception {
+        // final String loggedInUsername = "dev";
+        final String pdfFilePath = "/home/suresh/Project/AppData/iShare/dev/Resume.pdf";
+        final String txtFilePath = "/home/suresh/Project/AppData/iShare/dev/Snap_Common_Error_Fix.txt";
+        final String pngFilePath = "/home/suresh/Project/AppData/iShare/dev/Zyncky icon (Design 2).png";
+
+        // Path pdfPath = Paths.get(pdfFilePath);
+        // Resource pdfResource = new UrlResource(pdfPath.toUri());
+        // return pdfResource;
+        Path filePath = null;
+        MediaType contentType = MediaType.TEXT_PLAIN;
+
+        option = Objects.isNull(option) ? 0 : option;
+        switch (option) {
+            case 2: {
+                filePath = Paths.get(pdfFilePath);
+                contentType = MediaType.APPLICATION_PDF;
+            }
+                break;
+
+            case 3: {
+                filePath = Paths.get(pngFilePath);
+                contentType = MediaType.IMAGE_PNG;
+            }
+                break;
+            case 1:
+            default: {
+                filePath = Paths.get(txtFilePath);
+                contentType = MediaType.TEXT_PLAIN;
+            }
+                break;
+        }
+
+        Resource fileResource = new UrlResource(filePath.toUri());
+        return ResponseEntity.ok().contentType(contentType).body(fileResource);
     }
 }
