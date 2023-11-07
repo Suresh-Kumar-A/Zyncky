@@ -22,7 +22,6 @@ import app.web.zyncky.model.User;
 import app.web.zyncky.repo.UserRepository;
 import app.web.zyncky.util.CommonUtils;
 import app.web.zyncky.util.CustomBeanUtils;
-import app.web.zyncky.util.JwtBeanUtils;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -35,7 +34,7 @@ public class UserService {
 
     private final CustomBeanUtils customBeanUtils;
 
-    private final JwtBeanUtils jwtBeanUtils;
+    private final JwtService jwtService;
 
     @Value("${app.default.admin.username}")
     private String defaultAdminUsername;
@@ -191,7 +190,7 @@ public class UserService {
         jwtBody.put("username", dbUser.getUserName());
         jwtBody.put("role", dbUser.getRole().getRoleName());
 
-        response.put("token", jwtBeanUtils.generateSignedJwtToken(jwtBody));
+        response.put("token", jwtService.generateSignedJwtToken(jwtBody));
         response.put("createdAt", new Date().toString());
 
         return response;

@@ -1,4 +1,4 @@
-package app.web.zyncky.util;
+package app.web.zyncky.service;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -28,7 +28,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import app.web.zyncky.constant.AppConstants;
 
 @Service
-public class JwtBeanUtils {
+public class JwtService {
     private static final Map<String, Object> JWT_HEADER;
     private RSAPublicKey RSA_PUBLIC_KEY;
     private RSAPrivateKey RSA_PRIVATE_KEY;
@@ -41,7 +41,7 @@ public class JwtBeanUtils {
 
     @SuppressWarnings("unchecked")
     public String generateSignedJwtToken(Map<String, Object> jwtPayloadData) throws Exception {
-        RSA_PRIVATE_KEY = JwtBeanUtils.getPrivateKey();
+        RSA_PRIVATE_KEY = JwtService.getPrivateKey();
         // Pass Null to Public Key if you don't have a public key (or) don't need to get
         // the public key from user
         // Note: Public Key are not needed for signing
@@ -74,7 +74,7 @@ public class JwtBeanUtils {
     }
 
     public Map<String, Object> verifyJwtTokenAndGetValue(String jwtToken) throws Exception {
-        RSA_PUBLIC_KEY = JwtBeanUtils.getPublicKey();
+        RSA_PUBLIC_KEY = JwtService.getPublicKey();
         // Pass Null to Private Key if you don't have a private key (or) don't need to
         // get the private key from user
         // Note: Private Key are not needed for verifying

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import app.web.zyncky.security.CustomUserDetailsService;
-import app.web.zyncky.util.JwtBeanUtils;
+import app.web.zyncky.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
 
-    private final JwtBeanUtils jwtBeanUtils;
+    private final JwtService jwtService;
 
     private final CustomUserDetailsService userDetailsService;
 
@@ -40,7 +40,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         try {
             final String jwtToken = authHeader.split(" ")[1].trim();
-            Map<String, Object> jwtPayloadData = jwtBeanUtils.verifyJwtTokenAndGetValue(jwtToken);
+            Map<String, Object> jwtPayloadData = jwtService.verifyJwtTokenAndGetValue(jwtToken);
             if (jwtPayloadData.size() == 0 || jwtPayloadData.get("username") == null) {
                 filterChain.doFilter(request, response);
                 return;
