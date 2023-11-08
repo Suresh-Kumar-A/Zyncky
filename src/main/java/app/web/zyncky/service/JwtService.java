@@ -110,7 +110,7 @@ public class JwtService {
     }
 
     private static RSAPrivateKey getPrivateKey() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
-        File file = new ClassPathResource(AppConstants.PRIVATE_KEY_PATH).getFile();
+        File file = new File(AppConstants.PRIVATE_KEY_PATH);
         FileInputStream fis = new FileInputStream(file);
         DataInputStream dis = new DataInputStream(fis);
         byte[] keyBytes = new byte[(int) file.length()];
@@ -123,7 +123,7 @@ public class JwtService {
     }
 
     private static RSAPublicKey getPublicKey() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
-        File file = new ClassPathResource(AppConstants.PUBLIC_KEY_PATH).getFile();
+        File file = new File(AppConstants.PUBLIC_KEY_PATH);
         FileInputStream fis = new FileInputStream(file);
         DataInputStream dis = new DataInputStream(fis);
         byte[] keyBytes = new byte[(int) file.length()];
