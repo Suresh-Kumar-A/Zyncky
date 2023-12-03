@@ -2,6 +2,8 @@ package app.web.zyncky.controller;
 
 import java.util.List;
 
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,9 +31,14 @@ public class ContentApiController {
         return storageService.createNewFile(file);
     }
 
-    @GetMapping(value = "/{uid}/download")
-    public void downloadFiles(@PathVariable String uid) throws Exception {
+    @PostMapping(value = "/{uid}/download")
+    public ResponseEntity<Resource> downloadFiles(@PathVariable String uid) throws Exception {
+        return storageService.downloadFile(uid);
+    }
 
+    @GetMapping(value = "/{uid}/stream")
+    public ResponseEntity<Resource> streamFileContents(@PathVariable String uid) throws Exception {
+        return storageService.streamFileContents(uid);
     }
 
     @GetMapping(value = "/{uid}/view")

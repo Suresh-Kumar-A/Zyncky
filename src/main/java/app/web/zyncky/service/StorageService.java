@@ -8,8 +8,10 @@ import java.util.Date;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -100,4 +102,39 @@ public class StorageService {
         Resource fileResource = new UrlResource(filePath.toUri());
         return ResponseEntity.ok().contentType(contentType).body(fileResource);
     }
+
+    public ResponseEntity<Resource> downloadFile(String uid) throws Exception {
+        FileInfoDto fileInfoDto = fileInfoService.findByUid(uid);
+        MediaType contentType = parseContentType(fileInfoDto.getFileType());
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"".concat(fileInfoDto.getFilename())+"\"");
+        Path filePath = Paths.get(fileInfoDto.getStoragePath());
+        ByteArrayResource byteArrResource = new ByteArrayResource(Files.readAllBytes(filePath));
+        return ResponseEntity.ok().contentLength(filePath.toFile().length()).headers(httpHeaders)
+                .contentType(contentType).body(byteArrResource);
+    }
+
+    public ResponseEntity<Resource> streamFileContents(String uid) throws Exception {
+        FileInfoDto fileInfoDto = fileInfoService.findByUid(uid);
+        MediaType contentType = parseContentType(fileInfoDto.getFileType());
+        Path filePath = Paths.get(fileInfoDto.getStoragePath());
+        Resource fileResource = new UrlResource(filePath.toUri());
+        return ResponseEntity.ok().contentType(contentType).body(fileResource);
+    }
+
+    private MediaType parseContentType(FileTypeEnum fileTypeEnum) {
+        switch (fileTypeEnum) {
+            case SVG:
+            case PNG:
+                return MediaType.IMAGE_PNG;
+            case PDF:
+                return MediaType.APPLICATION_PDF;
+            case MP4:
+                return MediaType.APPLICATION_OCTET_STREAM;
+            case TXT:
+            default:
+                return MediaType.TEXT_PLAIN;
+        }
+    }
+
 }
