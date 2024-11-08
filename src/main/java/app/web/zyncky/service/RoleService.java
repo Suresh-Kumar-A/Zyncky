@@ -15,27 +15,21 @@ public class RoleService {
 
     private final RoleRepository roleRepo;
 
-    public Role createRole(String roleName) throws Exception {
-        if (!validateRoleName(roleName))
-            throw new IllegalArgumentException("Role Name is Invalid");
+    public Role createRole(String roleName) throws IllegalArgumentException {
+        if (isRoleNameInvalid(roleName)) throw new IllegalArgumentException("Role Name is Invalid");
 
         Role newRole = Role.builder().roleName(roleName).build();
         return roleRepo.save(newRole);
     }
 
-    private boolean validateRoleName(String roleName) {
-        if (Objects.isNull(roleName) || roleName.trim().length() == 0)
-            return false;
-        else
-            return true;
+    private boolean isRoleNameInvalid(String roleName) {
+        return Objects.isNull(roleName) || roleName.trim().isEmpty();
     }
 
-    public Role findRoleByName(String roleName) throws Exception {
-        if (!validateRoleName(roleName))
-            throw new IllegalArgumentException("Role Name is Invalid");
+    public Role findRoleByName(String roleName) throws IllegalArgumentException {
+        if (isRoleNameInvalid(roleName)) throw new IllegalArgumentException("Role Name is Invalid");
 
-        return roleRepo.findByRoleName(roleName)
-                .orElseThrow(() -> new RuntimeException("Role does not exist"));
+        return roleRepo.findByRoleName(roleName).orElseThrow(() -> new RuntimeException("Role does not exist"));
     }
 
     public List<Role> getAllRole() {
