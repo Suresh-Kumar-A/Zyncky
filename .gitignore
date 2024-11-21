@@ -7,3 +7,6 @@ target/
 # Ignore other unwanted files
 .classpath
 .settings/
+
+# Ignore Vs code configs
+.idea/
