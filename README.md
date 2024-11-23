@@ -6,12 +6,12 @@ Zyncky is an online file storage application that allows users to securely uploa
 
 ## Features
 
-- Security
+- User Management
 - File Storage (upto 50MB)(.txt, .pdf, .jpg, .png, .mp4)
 - Search and File Management
 - File Preview
 - Cloud Storage Insights (Display used vs. available storage)(Breakdown of file usage by type)
-
+- Security & Access Management
 
 ## Roadmap
 
