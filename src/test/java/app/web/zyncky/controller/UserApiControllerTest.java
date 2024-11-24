@@ -34,9 +34,9 @@ class UserApiControllerTest {
 
     @Test
     void shouldReturn201ForCreateUser() throws Exception {
-
+        UUID userId = UUID.randomUUID();
         when(userService.createUser(any(UserDto.class))).thenReturn(Optional.of(UserDto.builder()
-                .uid(UUID.randomUUID().toString()).displayName("Test User").emailAddress("test@gmail.com")
+                .uid(userId.toString()).displayName("Test User").emailAddress("test@gmail.com")
                 .roleName("USER").build()));
 
         String userDtoPayload = """
@@ -52,6 +52,7 @@ class UserApiControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(header().string("Location", "/api/users/%s".formatted(userId.toString())))
                 .andExpect(jsonPath("$.displayName").value("Test User"))
                 .andExpect(jsonPath("$.emailAddress").value("test@gmail.com"))
                 .andExpect(jsonPath("$.roleName").value("USER"))

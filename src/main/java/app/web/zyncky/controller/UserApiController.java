@@ -22,7 +22,7 @@ public class UserApiController {
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
         Optional<UserDto> optionalUser = userService.createUser(userDto);
         return optionalUser.map(dto -> ResponseEntity.created(
-                URI.create("/api/users/%s".formatted(userDto.getUid())
+                URI.create("/api/users/%s".formatted(dto.getUid())
                 )).body(dto)).orElseGet(() -> ResponseEntity.badRequest().body(userDto));
 
     }
